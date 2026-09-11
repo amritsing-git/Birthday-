@@ -1,0 +1,943 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+    -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+
+    overflow: hidden;
+
+    background: #fff4f7;
+
+    font-family:
+        Arial,
+        sans-serif;
+
+    touch-action: none;
+}
+
+
+#game {
+    position: fixed;
+
+    inset: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            circle at 50% 40%,
+            #ffffff 0%,
+            #fff5f8 45%,
+            #f9e0e9 100%
+        );
+}
+
+
+/* =================================
+   BACKGROUND
+================================= */
+
+#background {
+    position: absolute;
+
+    inset: 0;
+
+    pointer-events: none;
+}
+
+#background::before {
+    content: "";
+
+    position: absolute;
+
+    width: 320px;
+    height: 320px;
+
+    left: -140px;
+    top: 15%;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255, 120, 165, .10);
+
+    filter: blur(50px);
+}
+
+#background::after {
+    content: "";
+
+    position: absolute;
+
+    width: 350px;
+    height: 350px;
+
+    right: -160px;
+    bottom: 5%;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255, 160, 190, .12);
+
+    filter: blur(55px);
+}
+
+
+/* =================================
+   ARCHERY
+================================= */
+
+#archeryScreen {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 10;
+
+    opacity: 1;
+
+    transition:
+        opacity .8s ease;
+}
+
+
+/* =================================
+   HEART
+================================= */
+
+#heartTarget {
+    position: absolute;
+
+    left: 72%;
+    top: 28%;
+
+    width: 95px;
+    height: 95px;
+
+    transform:
+        translate(-50%, -50%);
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    pointer-events: none;
+}
+
+.heartGlow {
+    position: absolute;
+
+    width: 80px;
+    height: 80px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255, 70, 130, .18);
+
+    filter: blur(18px);
+
+    animation:
+        heartGlow 1.2s ease-in-out infinite;
+}
+
+.heart {
+    position: relative;
+
+    z-index: 2;
+
+    color: #ff4d86;
+
+    font-size: 78px;
+
+    line-height: 1;
+
+    filter:
+        drop-shadow(
+            0 5px 8px
+            rgba(220, 45, 100, .25)
+        );
+
+    animation:
+        heartBeat 1.2s ease-in-out infinite;
+}
+
+@keyframes heartBeat {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.08);
+    }
+}
+
+@keyframes heartGlow {
+
+    0%,
+    100% {
+        transform: scale(.85);
+        opacity: .4;
+    }
+
+    50% {
+        transform: scale(1.2);
+        opacity: .9;
+    }
+}
+
+
+/* =================================
+   BOW
+================================= */
+
+#bow {
+    position: absolute;
+
+    left: 17%;
+    top: 70%;
+
+    width: 80px;
+    height: 170px;
+
+    transform:
+        translate(-50%, -50%);
+
+    pointer-events: none;
+
+    z-index: 15;
+}
+
+.bowBody {
+    position: absolute;
+
+    left: 10px;
+    top: 5px;
+
+    width: 70px;
+    height: 155px;
+
+    border-left:
+        7px solid #79412f;
+
+    border-radius:
+        50% 0 0 50%;
+
+    transform:
+        rotate(-8deg);
+}
+
+.bowString {
+    position: absolute;
+
+    left: 43px;
+    top: 10px;
+
+    width: 2px;
+    height: 150px;
+
+    background: #60443c;
+
+    transform:
+        rotate(8deg);
+}
+
+
+/* =================================
+   ARROW
+================================= */
+
+#arrow {
+    position: absolute;
+
+    left: 23%;
+    top: 70%;
+
+    width: 150px;
+    height: 10px;
+
+    z-index: 30;
+
+    pointer-events: none;
+
+    transform-origin:
+        10px 50%;
+
+    transform:
+        translate(-10px, -50%)
+        rotate(180deg);
+}
+
+.arrowBody {
+    position: absolute;
+
+    left: 14px;
+    top: 4px;
+
+    width: 125px;
+    height: 3px;
+
+    border-radius: 5px;
+
+    background: #54372f;
+}
+
+.arrowHead {
+    position: absolute;
+
+    left: 0;
+    top: 0;
+
+    width: 0;
+    height: 0;
+
+    border-top:
+        5px solid transparent;
+
+    border-bottom:
+        5px solid transparent;
+
+    border-right:
+        16px solid #493029;
+}
+
+.arrowTail {
+    position: absolute;
+
+    right: 2px;
+    top: 1px;
+
+    width: 15px;
+    height: 8px;
+}
+
+.arrowTail span {
+    position: absolute;
+
+    width: 12px;
+    height: 2px;
+
+    background: #df7999;
+}
+
+.arrowTail span:first-child {
+    top: 0;
+
+    transform:
+        rotate(25deg);
+}
+
+.arrowTail span:last-child {
+    bottom: 0;
+
+    transform:
+        rotate(-25deg);
+}
+
+
+/* =================================
+   AIM LINE
+================================= */
+
+#aimLine {
+    position: absolute;
+
+    left: 0;
+    top: 0;
+
+    width: 0;
+    height: 2px;
+
+    background:
+        rgba(255, 70, 130, .35);
+
+    transform-origin:
+        left center;
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    z-index: 12;
+}
+
+
+/* =================================
+   INSTRUCTION
+================================= */
+
+#instruction {
+    position: absolute;
+
+    left: 50%;
+    bottom: 7%;
+
+    transform:
+        translateX(-50%);
+
+    width: 90%;
+
+    text-align: center;
+
+    color: #714653;
+
+    pointer-events: none;
+
+    z-index: 40;
+}
+
+.instructionTitle {
+    font-size: 19px;
+
+    font-weight: bold;
+
+    margin-bottom: 7px;
+}
+
+.instructionText {
+    font-size: 13px;
+
+    opacity: .7;
+
+    line-height: 1.4;
+}
+
+
+/* =================================
+   HIT EFFECT
+================================= */
+
+#hitEffect {
+    position: absolute;
+
+    left: 0;
+    top: 0;
+
+    width: 25px;
+    height: 25px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255, 80, 135, .75);
+
+    transform:
+        translate(-50%, -50%)
+        scale(0);
+
+    opacity: 0;
+
+    z-index: 80;
+
+    pointer-events: none;
+}
+
+#hitEffect.active {
+    animation:
+        hitBurst .8s ease-out forwards;
+}
+
+@keyframes hitBurst {
+
+    0% {
+        transform:
+            translate(-50%, -50%)
+            scale(.2);
+
+        opacity: 1;
+    }
+
+    100% {
+        transform:
+            translate(-50%, -50%)
+            scale(15);
+
+        opacity: 0;
+    }
+}
+
+
+/* =================================
+   BIRTHDAY SCENE
+================================= */
+
+#birthdayScene {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 100;
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            circle at 50% 30%,
+            #ffffff 0%,
+            #fff6f9 50%,
+            #f9e1e9 100%
+        );
+}
+
+#birthdayScene.show {
+    animation:
+        sceneIn 1s ease forwards;
+}
+
+@keyframes sceneIn {
+
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+
+/* =================================
+   WISH CONTENT
+================================= */
+
+.wishContent {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width: 90vw;
+    max-width: 520px;
+
+    max-height: 92vh;
+
+    transform:
+        translate(-50%, -50%);
+
+    padding:
+        15px 12px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+
+    overflow: hidden;
+}
+
+
+/* =================================
+   EMOJI
+================================= */
+
+.birthdayEmoji {
+    font-size:
+        clamp(42px, 11vw, 68px);
+
+    line-height: 1;
+
+    margin-bottom: 14px;
+
+    opacity: 0;
+
+    transform:
+        scale(.5);
+}
+
+#birthdayScene.show .birthdayEmoji {
+    animation:
+        emojiIn .8s .15s ease forwards;
+}
+
+@keyframes emojiIn {
+
+    0% {
+        opacity: 0;
+        transform: scale(.5);
+    }
+
+    70% {
+        opacity: 1;
+        transform: scale(1.12);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+
+/* =================================
+   TITLE
+================================= */
+
+#birthdayText {
+    position: static;
+
+    margin: 0;
+
+    color: #df3973;
+
+    font-size:
+        clamp(38px, 10vw, 64px);
+
+    line-height: 1.1;
+
+    font-weight: 800;
+
+    text-align: center;
+
+    opacity: 0;
+
+    transform:
+        translateY(20px);
+}
+
+#birthdayScene.show #birthdayText {
+    animation:
+        titleIn .9s .65s ease forwards;
+}
+
+@keyframes titleIn {
+
+    from {
+        opacity: 0;
+        transform:
+            translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform:
+            translateY(0);
+    }
+}
+
+
+/* =================================
+   LINE
+================================= */
+
+.wishLine {
+    width: 70px;
+    height: 3px;
+
+    margin:
+        16px 0;
+
+    border-radius: 10px;
+
+    background: #ff7fa5;
+
+    transform:
+        scaleX(0);
+}
+
+#birthdayScene.show .wishLine {
+    animation:
+        lineIn .6s 1.35s ease forwards;
+}
+
+@keyframes lineIn {
+
+    to {
+        transform:
+            scaleX(1);
+    }
+}
+
+
+/* =================================
+   FRIEND TITLE
+================================= */
+
+.friendTitle {
+    margin:
+        0 0 12px 0;
+
+    color: #663747;
+
+    font-size:
+        clamp(21px, 5.5vw, 30px);
+
+    line-height: 1.3;
+
+    font-weight: 700;
+
+    text-align: center;
+
+    opacity: 0;
+
+    transform:
+        translateY(15px);
+}
+
+#birthdayScene.show .friendTitle {
+    animation:
+        textIn .8s 1.55s ease forwards;
+}
+
+
+/* =================================
+   WISH TEXT
+================================= */
+
+.friendWish {
+    width: 100%;
+
+    max-width: 470px;
+
+    margin:
+        5px 0;
+
+    padding:
+        0 5px;
+
+    color: #76515e;
+
+    font-size:
+        clamp(14px, 3.8vw, 18px);
+
+    line-height: 1.5;
+
+    text-align: center;
+
+    opacity: 0;
+
+    transform:
+        translateY(15px);
+}
+
+#birthdayScene.show .friendWish:nth-of-type(1) {
+    animation:
+        textIn .8s 1.95s ease forwards;
+}
+
+#birthdayScene.show .friendWish:nth-of-type(2) {
+    animation:
+        textIn .8s 2.25s ease forwards;
+}
+
+#birthdayScene.show .friendWish:nth-of-type(3) {
+    animation:
+        textIn .8s 2.55s ease forwards;
+}
+
+@keyframes textIn {
+
+    from {
+        opacity: 0;
+        transform:
+            translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform:
+            translateY(0);
+    }
+}
+
+
+/* =================================
+   FINAL HEART
+================================= */
+
+.finalHeart {
+    margin-top: 12px;
+
+    font-size:
+        clamp(34px, 8vw, 52px);
+
+    line-height: 1;
+
+    opacity: 0;
+
+    transform:
+        scale(.5);
+}
+
+#birthdayScene.show .finalHeart {
+    animation:
+        heartIn .7s 2.95s ease forwards;
+}
+
+@keyframes heartIn {
+
+    0% {
+        opacity: 0;
+        transform: scale(.5);
+    }
+
+    70% {
+        opacity: 1;
+        transform: scale(1.18);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+
+/* =================================
+   FINAL MESSAGE
+================================= */
+
+#finalBirthday {
+    position: static;
+
+    margin-top: 10px;
+
+    width: 100%;
+
+    color: #df3973;
+
+    font-size:
+        clamp(21px, 5.5vw, 31px);
+
+    line-height: 1.3;
+
+    font-weight: 800;
+
+    text-align: center;
+
+    white-space: normal;
+
+    opacity: 0;
+
+    transform:
+        translateY(15px);
+}
+
+#birthdayScene.show #finalBirthday {
+    animation:
+        finalIn .9s 3.25s ease forwards;
+}
+
+@keyframes finalIn {
+
+    from {
+        opacity: 0;
+        transform:
+            translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform:
+            translateY(0);
+    }
+}
+
+
+/* =================================
+   MOBILE
+================================= */
+
+@media (max-width: 600px) {
+
+    #heartTarget {
+        left: 72%;
+        top: 27%;
+
+        width: 85px;
+        height: 85px;
+    }
+
+    .heart {
+        font-size: 70px;
+    }
+
+    #bow {
+        left: 17%;
+        top: 70%;
+    }
+
+    #arrow {
+        left: 23%;
+        top: 70%;
+    }
+
+    #instruction {
+        bottom: 6%;
+    }
+
+    .instructionTitle {
+        font-size: 17px;
+    }
+
+    .instructionText {
+        font-size: 12px;
+    }
+
+    .wishContent {
+        width: 93vw;
+
+        padding:
+            10px 6px;
+    }
+
+    .birthdayEmoji {
+        margin-bottom: 10px;
+    }
+
+    #birthdayText {
+        font-size:
+            clamp(36px, 10.5vw, 58px);
+    }
+
+    .wishLine {
+        margin:
+            13px 0;
+    }
+
+    .friendTitle {
+        font-size: 21px;
+
+        margin-bottom: 9px;
+    }
+
+    .friendWish {
+        font-size: 14px;
+
+        line-height: 1.45;
+
+        margin: 4px 0;
+    }
+
+    .finalHeart {
+        margin-top: 10px;
+    }
+
+    #finalBirthday {
+        margin-top: 8px;
+
+        font-size: 22px;
+    }
+}
